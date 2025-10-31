@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bu4xuqt0ctw8m"]
+
+[node name="store" type="Node"]
+
+[node name="Label" type="Label" parent="."]
+offset_left = 4.0
+offset_top = 557.0
+offset_right = 199.0
+offset_bottom = 612.0
+text = "баланс:"

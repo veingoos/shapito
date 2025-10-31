@@ -1,0 +1,122 @@
+[gd_scene load_steps=2 format=3 uid="uid://dstqc5agwgox3"]
+
+[ext_resource type="Script" uid="uid://7egkv0utp30f" path="res://Game.gd" id="1_80nbo"]
+
+[node name="game" type="Node"]
+script = ExtResource("1_80nbo")
+
+[node name="Card_1" type="Button" parent="."]
+custom_minimum_size = Vector2(45, 45)
+offset_left = 113.0
+offset_top = 172.0
+offset_right = 203.0
+offset_bottom = 302.0
+text = "карта 1"
+
+[node name="Card_2" type="Button" parent="."]
+offset_left = 308.0
+offset_top = 173.0
+offset_right = 398.0
+offset_bottom = 303.0
+text = "карта 2
+"
+
+[node name="Card_3" type="Button" parent="."]
+offset_left = 545.0
+offset_top = 171.0
+offset_right = 635.0
+offset_bottom = 301.0
+text = "карта 3"
+
+[node name="Card_4" type="Button" parent="."]
+offset_left = 761.0
+offset_top = 178.0
+offset_right = 851.0
+offset_bottom = 308.0
+text = "карта 4"
+
+[node name="Card_5" type="Button" parent="."]
+offset_left = 209.0
+offset_top = 331.0
+offset_right = 299.0
+offset_bottom = 461.0
+text = "карта 5"
+
+[node name="Card_6" type="Button" parent="."]
+offset_left = 424.0
+offset_top = 332.0
+offset_right = 514.0
+offset_bottom = 462.0
+text = "карта 6"
+
+[node name="Card_7" type="Button" parent="."]
+offset_left = 652.0
+offset_top = 335.0
+offset_right = 742.0
+offset_bottom = 465.0
+text = "карта 7"
+
+[node name="Play_Hand" type="Button" parent="."]
+offset_left = 141.0
+offset_top = 500.0
+offset_right = 261.0
+offset_bottom = 560.0
+text = "играть руку"
+
+[node name="Discard" type="Button" parent="."]
+offset_left = 711.0
+offset_top = 500.0
+offset_right = 831.0
+offset_bottom = 560.0
+text = "сбросить"
+
+[node name="My_Account" type="Label" parent="."]
+offset_left = 157.0
+offset_top = 85.0
+offset_right = 846.0
+offset_bottom = 126.0
+text = "ваши очки:"
+horizontal_alignment = 1
+
+[node name="Required_Account" type="Label" parent="."]
+offset_left = 161.0
+offset_top = 25.0
+offset_right = 850.0
+offset_bottom = 66.0
+text = "нужно набрать:"
+horizontal_alignment = 1
+
+[node name="Deck" type="Label" parent="."]
+offset_left = 295.0
+offset_top = 500.0
+offset_right = 675.0
+offset_bottom = 560.0
+text = "осталось карт:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="."]
+offset_right = 73.0
+offset_bottom = 160.0
+text = "h - черви
+d - буби
+c- крести
+s -пики"
+
+[node name="Move" type="Label" parent="."]
+offset_left = 733.0
+offset_top = 22.0
+offset_right = 896.0
+offset_bottom = 61.0
+text = "ходов"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Reset" type="Label" parent="."]
+offset_left = 726.0
+offset_top = 76.0
+offset_right = 911.0
+offset_bottom = 128.0
+text = "сбросов"
+horizontal_alignment = 1
+vertical_alignment = 1
