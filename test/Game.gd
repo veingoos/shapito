@@ -104,7 +104,9 @@ static func rank_counts(hand1: Array):
 			else:
 				counts[rank_order2[str(card["rank"])]] = 1
 		return counts
-
+static func is_one_pair(hand1: Array):
+	var counts = rank_counts(hand1)
+	return false
 static func is_flush(hand1: Array):
 	var suits = get_suits(hand1)
 	return suits.count(suits[0]) == 5
@@ -112,16 +114,17 @@ static func is_flush(hand1: Array):
 static func is_straight(hand1: Array):
 	var ranks = get_ranks(hand1)
 	var normal = true
-	for i in range(1,5):
-		if ranks[i] != ranks[i-1] + 1:
-			normal = false
-			break
-	if normal:
-		return true
+	if is_one_pair(hand1):
+		for i in range(1,5):
+			if ranks[i] != ranks[i-1] + 1:
+				normal = false
+				break
+		if normal:
+			return true
 	
-	if ranks == [2,3,4,5,14]:
-		return true
-	return false
+		if ranks == [2,3,4,5,14]:
+			return true
+		return false
 	
 static func is_straight_flush(hand1: Array):
 	return is_straight(hand1) and is_flush(hand1)
@@ -151,9 +154,8 @@ static func is_two_pair(hand1: Array):
 			pairs += 1
 	return pairs == 2
 
-static func is_one_pair(hand1: Array):
-	var counts = rank_counts(hand1)
-	return counts.count(2) == 1
+
+
 
 
 
@@ -235,32 +237,32 @@ func move_cards():
 	var combo: int = 1
 	match combo_id:
 		10:
-			combo = 10
+			combo += 10
 		9:
-			combo = 9
+			combo += 9
 		8:
-			combo = 8
+			combo += 8
 		7:
-			combo = 7
+			combo += 7
 		6:
-			combo = 6
+			combo += 6
 		5:
-			combo = 5
+			combo += 5
 		4:
-			combo = 4
+			combo += 4
 		3:
-			combo = 3
+			combo += 3
 		2:
-			combo = 2
+			combo += 2
 		1:
-			combo = 1
+			combo += 1
 	
 	
 	for ind in indices:
 		_total_account += rank_order[str(ind["rank"])]
 	_total_account *= combo
 	Record.my_account = Record.my_account + _total_account
-	
+	combo = 1
 	indices.clear()
 	
 	hand = deal_hand(deck)

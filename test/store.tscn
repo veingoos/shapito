@@ -1,6 +1,9 @@
-[gd_scene format=3 uid="uid://bu4xuqt0ctw8m"]
+[gd_scene load_steps=2 format=3 uid="uid://bu4xuqt0ctw8m"]
+
+[ext_resource type="Script" uid="uid://og3km72dlywg" path="res://store.gd" id="1_c176v"]
 
 [node name="store" type="Node"]
+script = ExtResource("1_c176v")
 
 [node name="Label" type="Label" parent="."]
 offset_left = 4.0
@@ -8,3 +11,24 @@ offset_top = 557.0
 offset_right = 199.0
 offset_bottom = 612.0
 text = "баланс:"
+
+[node name="joker1" type="Button" parent="."]
+offset_left = 66.0
+offset_top = 122.0
+offset_right = 183.0
+offset_bottom = 311.0
+text = "joker 1"
+
+[node name="joker2" type="Button" parent="."]
+offset_left = 259.0
+offset_top = 124.0
+offset_right = 376.0
+offset_bottom = 313.0
+text = "joker 2"
+
+[node name="joker3" type="Button" parent="."]
+offset_left = 445.0
+offset_top = 129.0
+offset_right = 562.0
+offset_bottom = 318.0
+text = "joker 3"
