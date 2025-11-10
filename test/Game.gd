@@ -1,5 +1,7 @@
 extends Node
 
+@onready var test = $Button
+
 @onready var Card_1 = $Card_1
 @onready var Card_2 = $Card_2
 @onready var Card_3 = $Card_3
@@ -27,11 +29,22 @@ extends Node
 
 var deck = []
 var hand = []
+var jokers = []
+
 
 var move = 4
 var reset = 3
 var pressed = 0
 
+func Card(suit,rank):
+	return {
+				"suit": suit,
+				"rank": rank
+			}
+
+func test_strait():
+	print(is_straight([Card("Hearts","10"),Card("Hearts","Jack"),Card("Hearts","Queen"),Card("Hearts","King"),Card("Hearts","Ace")]))
+	print(is_straight([Card("Hearts","2"),Card("Hearts","3"),Card("Hearts","4"),Card("Hearts","5"),Card("Hearts","Ace")]))
 
 func create_deck():
 	var suits = ["Hearts", "Diamonds", "Clubs", "Spades"]
@@ -39,11 +52,7 @@ func create_deck():
 	
 	for suit in suits:
 		for rank in ranks:
-			var card = {
-				"suit": suit,
-				"rank": rank
-			}
-			deck.append(card)
+			deck.append(Card(suit,rank))
 	
 	return deck
 
@@ -104,28 +113,33 @@ static func rank_counts(hand1: Array):
 			else:
 				counts[rank_order2[str(card["rank"])]] = 1
 		return counts
+	
+	
 static func is_one_pair(hand1: Array):
 	var counts = rank_counts(hand1)
-	return false
+	if len(counts) > 1:
+		return false
+	
 static func is_flush(hand1: Array):
 	var suits = get_suits(hand1)
+	if len(suits)<5:
+		return false
 	return suits.count(suits[0]) == 5
 
 static func is_straight(hand1: Array):
 	var ranks = get_ranks(hand1)
-	var normal = true
-	if is_one_pair(hand1):
-		for i in range(1,5):
-			if ranks[i] != ranks[i-1] + 1:
-				normal = false
-				break
-		if normal:
-			return true
-	
-		if ranks == [2,3,4,5,14]:
-			return true
+	if len(ranks)<5:
 		return false
+	if ranks == [2,3,4,5,14]:
+		return true
 	
+		
+	for i in range(1,5):
+		if ranks[i] != ranks[i-1] + 1:
+			return false
+
+	return true
+
 static func is_straight_flush(hand1: Array):
 	return is_straight(hand1) and is_flush(hand1)
 
@@ -237,31 +251,44 @@ func move_cards():
 	var combo: int = 1
 	match combo_id:
 		10:
-			combo += 10
-		9:
 			combo += 9
-		8:
+		9:
 			combo += 8
-		7:
+		8:
 			combo += 7
-		6:
+		7:
 			combo += 6
-		5:
+		6:
 			combo += 5
-		4:
+		5:
 			combo += 4
-		3:
+		4:
 			combo += 3
-		2:
+		3:
 			combo += 2
-		1:
+		2:
 			combo += 1
+		1:
+			combo += 0
+	
+	var _suits = get_suits(indices)
+	print(get_suits(indices))
+	for i in jokers:
+		var suit_joker = i[1]
+		for ind in _suits:
+			if _suits[ind] == suit_joker:
+				_total_account += jokers[0]
+	
+	
 	
 	
 	for ind in indices:
 		_total_account += rank_order[str(ind["rank"])]
+
 	_total_account *= combo
 	Record.my_account = Record.my_account + _total_account
+
+	
 	combo = 1
 	indices.clear()
 	
@@ -282,7 +309,8 @@ func move_cards():
 	
 	
 	if move < 1:
-		get_tree().change_scene_to_file("res://control.tscn")
+		Record.money += 4
+		get_tree().change_scene_to_file("res://store.tscn")
 
 func replace_cards():
 	if reset >=  1:
@@ -376,6 +404,8 @@ func replace_cards():
 func _ready():
 	
 	print(pressed)
+	
+	test.pressed.connect(test_strait.bind())
 	Card_1.pressed.connect(_if_button_pressed.bind(1))
 	Card_2.pressed.connect(_if_button_pressed.bind(2))
 	Card_3.pressed.connect(_if_button_pressed.bind(3))
