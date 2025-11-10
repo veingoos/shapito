@@ -29,7 +29,7 @@ extends Node
 
 var deck = []
 var hand = []
-var jokers = []
+var jokers = Record.jokers
 
 
 var move = 4
