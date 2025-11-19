@@ -2,6 +2,7 @@ extends Node
 
 @onready var test = $Button
 
+
 @onready var Card_1 = $Card_1
 @onready var Card_2 = $Card_2
 @onready var Card_3 = $Card_3
@@ -36,15 +37,13 @@ var move = 4
 var reset = 3
 var pressed = 0
 
-func Card(suit,rank):
+func Card(suit,rank,imgcard):
 	return {
 				"suit": suit,
-				"rank": rank
-			}
+				"rank": rank,
+				"imgcard": imgcard
+				}
 
-func test_strait():
-	print(is_straight([Card("Hearts","10"),Card("Hearts","Jack"),Card("Hearts","Queen"),Card("Hearts","King"),Card("Hearts","Ace")]))
-	print(is_straight([Card("Hearts","2"),Card("Hearts","3"),Card("Hearts","4"),Card("Hearts","5"),Card("Hearts","Ace")]))
 
 func create_deck():
 	var suits = ["Hearts", "Diamonds", "Clubs", "Spades"]
@@ -52,9 +51,11 @@ func create_deck():
 	
 	for suit in suits:
 		for rank in ranks:
-			deck.append(Card(suit,rank))
+			deck.append(Card(suit,rank,suit+rank))
+			
 	
 	return deck
+
 
 func shuffle_deck(deck1):
 	deck1.shuffle()
@@ -151,7 +152,8 @@ static func is_royal_flush(hand1: Array):
 
 static func is_four_of_a_kind(hand1: Array):
 	var counts = rank_counts(hand1)
-	return 4 in counts
+
+	return 4 in counts.values()
 
 static func is_full_house(hand1: Array):
 	var counts = rank_counts(hand1)
@@ -159,11 +161,12 @@ static func is_full_house(hand1: Array):
 
 static func is_three_of_a_kind(hand1: Array):
 	var counts = rank_counts(hand1)
-	return 3 in counts and 2 not in counts
+	
+	return 3 in counts.values() and 2 not in counts.values()
 
 static func is_two_pair(hand1: Array):
 	var pairs = 0
-	for count in rank_counts(hand1):
+	for count in rank_counts(hand1).values():
 		if int(count) == 2:
 			pairs += 1
 	return pairs == 2
@@ -248,6 +251,7 @@ func move_cards():
 	var rank_order = {"2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "10": 10, "Jack": 10, "Queen": 10, "King": 10, "Ace": 11}
 	var _total_account: int = 0
 	var combo_id = evaluate_hand(indices)
+	print(combo_id)
 	var combo: int = 1
 	match combo_id:
 		10:
@@ -276,8 +280,8 @@ func move_cards():
 	for i in jokers:
 		var suit_joker = i[1]
 		for ind in _suits:
-			if _suits[ind] == suit_joker:
-				_total_account += jokers[0]
+			if ind == suit_joker:
+				_total_account += i[0]
 	
 	
 	
@@ -297,13 +301,21 @@ func move_cards():
 	Deck.text = str(deck.size()) + " карт"
 	My_Account.text = str(Record.my_account) + "очков"
 	
-	Card_1.text = str(hand[0]["rank"]) + " " + str(hand[0]["suit"])
-	Card_2.text = str(hand[1]["rank"]) + " " + str(hand[1]["suit"])
-	Card_3.text = str(hand[2]["rank"]) + " " + str(hand[2]["suit"])
-	Card_4.text = str(hand[3]["rank"]) + " " + str(hand[3]["suit"])
-	Card_5.text = str(hand[4]["rank"]) + " " + str(hand[4]["suit"])
-	Card_6.text = str(hand[5]["rank"]) + " " + str(hand[5]["suit"])
-	Card_7.text = str(hand[6]["rank"]) + " " + str(hand[6]["suit"])
+	var card_1_texture = load("res://texturecards/"+str(hand[0]["imgcard"])+".png")
+	var card_2_texture = load("res://texturecards/"+str(hand[1]["imgcard"])+".png")
+	var card_3_texture = load("res://texturecards/"+str(hand[2]["imgcard"])+".png")
+	var card_4_texture = load("res://texturecards/"+str(hand[3]["imgcard"])+".png")
+	var card_5_texture = load("res://texturecards/"+str(hand[4]["imgcard"])+".png")
+	var card_6_texture = load("res://texturecards/"+str(hand[5]["imgcard"])+".png")
+	var card_7_texture = load("res://texturecards/"+str(hand[6]["imgcard"])+".png")
+	
+	Card_1.texture_normal = card_1_texture
+	Card_2.texture_normal = card_2_texture
+	Card_3.texture_normal = card_3_texture
+	Card_4.texture_normal = card_4_texture
+	Card_5.texture_normal = card_5_texture
+	Card_6.texture_normal = card_6_texture
+	Card_7.texture_normal = card_7_texture
 	
 	Move.text = str(move) + " хода"
 	
@@ -389,14 +401,21 @@ func replace_cards():
 		print("Сбросов нет")
 		pass
 	
+	var card_1_texture = load("res://texturecards/"+str(hand[0]["imgcard"])+".png")
+	var card_2_texture = load("res://texturecards/"+str(hand[1]["imgcard"])+".png")
+	var card_3_texture = load("res://texturecards/"+str(hand[2]["imgcard"])+".png")
+	var card_4_texture = load("res://texturecards/"+str(hand[3]["imgcard"])+".png")
+	var card_5_texture = load("res://texturecards/"+str(hand[4]["imgcard"])+".png")
+	var card_6_texture = load("res://texturecards/"+str(hand[5]["imgcard"])+".png")
+	var card_7_texture = load("res://texturecards/"+str(hand[6]["imgcard"])+".png")
 	
-	Card_1.text = str(hand[0]["rank"]) + " " + str(hand[0]["suit"])
-	Card_2.text = str(hand[1]["rank"]) + " " + str(hand[1]["suit"])
-	Card_3.text = str(hand[2]["rank"]) + " " + str(hand[2]["suit"])
-	Card_4.text = str(hand[3]["rank"]) + " " + str(hand[3]["suit"])
-	Card_5.text = str(hand[4]["rank"]) + " " + str(hand[4]["suit"])
-	Card_6.text = str(hand[5]["rank"]) + " " + str(hand[5]["suit"])
-	Card_7.text = str(hand[6]["rank"]) + " " + str(hand[6]["suit"])
+	Card_1.texture_normal = card_1_texture
+	Card_2.texture_normal = card_2_texture
+	Card_3.texture_normal = card_3_texture
+	Card_4.texture_normal = card_4_texture
+	Card_5.texture_normal = card_5_texture
+	Card_6.texture_normal = card_6_texture
+	Card_7.texture_normal = card_7_texture
 	
 	Reset.text = str(reset) + " сбросов"
 	Deck.text = str(deck.size()) + " карт"
@@ -405,7 +424,6 @@ func _ready():
 	
 	print(pressed)
 	
-	test.pressed.connect(test_strait.bind())
 	Card_1.pressed.connect(_if_button_pressed.bind(1))
 	Card_2.pressed.connect(_if_button_pressed.bind(2))
 	Card_3.pressed.connect(_if_button_pressed.bind(3))
@@ -421,13 +439,21 @@ func _ready():
 	deck = shuffle_deck(deck)
 	hand = deal_hand(deck)
 	
-	Card_1.text = str(hand[0]["rank"]) + " " + str(hand[0]["suit"])
-	Card_2.text = str(hand[1]["rank"]) + " " + str(hand[1]["suit"])
-	Card_3.text = str(hand[2]["rank"]) + " " + str(hand[2]["suit"])
-	Card_4.text = str(hand[3]["rank"]) + " " + str(hand[3]["suit"])
-	Card_5.text = str(hand[4]["rank"]) + " " + str(hand[4]["suit"])
-	Card_6.text = str(hand[5]["rank"]) + " " + str(hand[5]["suit"])
-	Card_7.text = str(hand[6]["rank"]) + " " + str(hand[6]["suit"])
+	var card_1_texture = load("res://texturecards/"+str(hand[0]["imgcard"])+".png")
+	var card_2_texture = load("res://texturecards/"+str(hand[1]["imgcard"])+".png")
+	var card_3_texture = load("res://texturecards/"+str(hand[2]["imgcard"])+".png")
+	var card_4_texture = load("res://texturecards/"+str(hand[3]["imgcard"])+".png")
+	var card_5_texture = load("res://texturecards/"+str(hand[4]["imgcard"])+".png")
+	var card_6_texture = load("res://texturecards/"+str(hand[5]["imgcard"])+".png")
+	var card_7_texture = load("res://texturecards/"+str(hand[6]["imgcard"])+".png")
+	
+	Card_1.texture_normal = card_1_texture
+	Card_2.texture_normal = card_2_texture
+	Card_3.texture_normal = card_3_texture
+	Card_4.texture_normal = card_4_texture
+	Card_5.texture_normal = card_5_texture
+	Card_6.texture_normal = card_6_texture
+	Card_7.texture_normal = card_7_texture
 	
 	Move.text = str(move) + " хода"
 	Reset.text = str(reset) + " сбросов"
@@ -439,78 +465,71 @@ func _if_button_pressed(button_index: int):
 	match button_index:
 		1:
 			if card_1_pressed:
-				Card_1.text = str(hand[0]["rank"]) + " " + str(hand[0]["suit"])
+				print(hand[0]["suit"],hand[0]["rank"],hand[0]["imgcard"])
 				card_1_pressed = false
 				pressed -= 1
 				print(pressed)
 			else:
-				Card_1.text = str(hand[0]["rank"]) + " " + str(hand[0]["suit"]) + " Выбр."
 				card_1_pressed = true
 				pressed += 1
 				print(pressed)
 		2:
 			if card_2_pressed:
-				Card_2.text = str(hand[1]["rank"]) + " " + str(hand[1]["suit"])
+				print(hand[1]["suit"],hand[1]["rank"],hand[1]["imgcard"])
 				card_2_pressed = false
 				pressed -= 1
 				print(pressed)
 			else:
-				Card_2.text = str(hand[1]["rank"]) + " " + str(hand[1]["suit"]) + " Выбр."
 				card_2_pressed = true
 				pressed += 1
 				print(pressed)
 		3:
 			if card_3_pressed:
-				Card_3.text = str(hand[2]["rank"]) + " " + str(hand[2]["suit"])
+				print(hand[2]["suit"],hand[2]["rank"],hand[2]["imgcard"])
 				card_3_pressed = false
 				pressed -= 1
 				print(pressed)
 			else:
-				Card_3.text = str(hand[2]["rank"]) + " " + str(hand[2]["suit"]) + " Выбр."
 				card_3_pressed = true
 				pressed += 1
 				print(pressed)
 		4:
 			if card_4_pressed:
-				Card_4.text = str(hand[3]["rank"]) + " " + str(hand[3]["suit"])
+				print(hand[3]["suit"],hand[3]["rank"],hand[3]["imgcard"])
 				card_4_pressed = false
 				pressed -= 1
 				print(pressed)
 			else:
-				Card_4.text = str(hand[3]["rank"]) + " " + str(hand[3]["suit"]) + " Выбр."
 				card_4_pressed = true
 				pressed += 1
 				print(pressed)
 		5:
 			if card_5_pressed:
-				Card_5.text = str(hand[4]["rank"]) + " " + str(hand[4]["suit"])
+				print(hand[4]["suit"],hand[4]["rank"],hand[4]["imgcard"])
 				card_5_pressed = false
 				pressed -= 1
 				print(pressed)
 			else:
-				Card_5.text = str(hand[4]["rank"]) + " " + str(hand[4]["suit"]) + " Выбр."
 				card_5_pressed = true
 				pressed += 1
 				print(pressed)
 		6:
 			if card_6_pressed:
-				Card_6.text = str(hand[5]["rank"]) + " " + str(hand[5]["suit"])
+				print(hand[5]["suit"],hand[5]["rank"],hand[5]["imgcard"])
 				card_6_pressed = false
 				pressed -= 1
 				print(pressed)
 			else:
-				Card_6.text = str(hand[5]["rank"]) + " " + str(hand[5]["suit"]) + " Выбр."
 				card_6_pressed = true
 				pressed += 1
 				print(pressed)
 		7:
 			if card_7_pressed:
-				Card_7.text = str(hand[6]["rank"]) + " " + str(hand[6]["suit"])
+				print(hand[6]["suit"],hand[6]["rank"],hand[6]["imgcard"])
 				card_7_pressed = false
 				pressed -= 1
 				print(pressed)
 			else:
-				Card_7.text = str(hand[6]["rank"]) + " " + str(hand[6]["suit"]) + " Выбр."
 				card_7_pressed = true
 				pressed += 1
 				print(pressed)
