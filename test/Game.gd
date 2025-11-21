@@ -3,13 +3,13 @@ extends Node
 @onready var test = $Button
 
 
-@onready var Card_1 = $Card_1
-@onready var Card_2 = $Card_2
-@onready var Card_3 = $Card_3
-@onready var Card_4 = $Card_4
-@onready var Card_5 = $Card_5
-@onready var Card_6 = $Card_6
-@onready var Card_7 = $Card_7
+@onready var Card_1 = $ColorRect/Card_1
+@onready var Card_2 = $ColorRect/Card_2
+@onready var Card_3 = $ColorRect/Card_3
+@onready var Card_4 = $ColorRect/Card_4
+@onready var Card_5 = $ColorRect/Card_5
+@onready var Card_6 = $ColorRect/Card_6
+@onready var Card_7 = $ColorRect/Card_7
 
 @onready var card_1_pressed: bool = false
 @onready var card_2_pressed: bool = false
@@ -19,14 +19,14 @@ extends Node
 @onready var card_6_pressed: bool = false
 @onready var card_7_pressed: bool = false
 
-@onready var Play_Hand = $Play_Hand
-@onready var Discard = $Discard
+@onready var Play_Hand = $ColorRect/Play_Hand
+@onready var Discard = $ColorRect/Discard
 
-@onready var My_Account = $My_Account
-@onready var Required_Account = $Required_Account
-@onready var Deck = $Deck
-@onready var Move = $Move
-@onready var Reset = $Reset
+@onready var My_Account = $ColorRect/My_Account
+@onready var Required_Account = $ColorRect/Required_Account
+@onready var Deck = $ColorRect/Deck
+@onready var Move = $ColorRect/Move
+@onready var Reset = $ColorRect/Reset
 
 var deck = []
 var hand = []
@@ -284,11 +284,8 @@ func move_cards():
 				_total_account += i[0]
 	
 	
-	
-	
 	for ind in indices:
 		_total_account += rank_order[str(ind["rank"])]
-
 	_total_account *= combo
 	Record.my_account = Record.my_account + _total_account
 
@@ -299,7 +296,15 @@ func move_cards():
 	hand = deal_hand(deck)
 	
 	Deck.text = str(deck.size()) + " карт"
-	My_Account.text = str(Record.my_account) + "очков"
+	My_Account.text = str(Record.my_account) + " очков"
+	
+	$ColorRect/Card_1.position.y = 400
+	$ColorRect/Card_2.position.y = 400
+	$ColorRect/Card_3.position.y = 400
+	$ColorRect/Card_4.position.y = 400
+	$ColorRect/Card_5.position.y = 400
+	$ColorRect/Card_6.position.y = 400
+	$ColorRect/Card_7.position.y = 400
 	
 	var card_1_texture = load("res://texturecards/"+str(hand[0]["imgcard"])+".png")
 	var card_2_texture = load("res://texturecards/"+str(hand[1]["imgcard"])+".png")
@@ -401,6 +406,14 @@ func replace_cards():
 		print("Сбросов нет")
 		pass
 	
+	$ColorRect/Card_1.position.y = 400
+	$ColorRect/Card_2.position.y = 400
+	$ColorRect/Card_3.position.y = 400
+	$ColorRect/Card_4.position.y = 400
+	$ColorRect/Card_5.position.y = 400
+	$ColorRect/Card_6.position.y = 400
+	$ColorRect/Card_7.position.y = 400
+	
 	var card_1_texture = load("res://texturecards/"+str(hand[0]["imgcard"])+".png")
 	var card_2_texture = load("res://texturecards/"+str(hand[1]["imgcard"])+".png")
 	var card_3_texture = load("res://texturecards/"+str(hand[2]["imgcard"])+".png")
@@ -439,6 +452,14 @@ func _ready():
 	deck = shuffle_deck(deck)
 	hand = deal_hand(deck)
 	
+	$ColorRect/Card_1.position.y = 400
+	$ColorRect/Card_2.position.y = 400
+	$ColorRect/Card_3.position.y = 400
+	$ColorRect/Card_4.position.y = 400
+	$ColorRect/Card_5.position.y = 400
+	$ColorRect/Card_6.position.y = 400
+	$ColorRect/Card_7.position.y = 400
+	
 	var card_1_texture = load("res://texturecards/"+str(hand[0]["imgcard"])+".png")
 	var card_2_texture = load("res://texturecards/"+str(hand[1]["imgcard"])+".png")
 	var card_3_texture = load("res://texturecards/"+str(hand[2]["imgcard"])+".png")
@@ -459,7 +480,7 @@ func _ready():
 	Reset.text = str(reset) + " сбросов"
 	
 	Deck.text = str(deck.size()) + " карт"
-	My_Account.text = str(Record.my_account) + "очков"
+	My_Account.text = str(Record.my_account) + " очков"
 
 func _if_button_pressed(button_index: int):
 	match button_index:
@@ -467,70 +488,84 @@ func _if_button_pressed(button_index: int):
 			if card_1_pressed:
 				print(hand[0]["suit"],hand[0]["rank"],hand[0]["imgcard"])
 				card_1_pressed = false
+				$ColorRect/Card_1.position.y += 50
 				pressed -= 1
 				print(pressed)
 			else:
 				card_1_pressed = true
+				$ColorRect/Card_1.position.y -= 50
 				pressed += 1
 				print(pressed)
 		2:
 			if card_2_pressed:
 				print(hand[1]["suit"],hand[1]["rank"],hand[1]["imgcard"])
 				card_2_pressed = false
+				$ColorRect/Card_2.position.y += 50
 				pressed -= 1
 				print(pressed)
 			else:
 				card_2_pressed = true
+				$ColorRect/Card_2.position.y -= 50
 				pressed += 1
 				print(pressed)
 		3:
 			if card_3_pressed:
 				print(hand[2]["suit"],hand[2]["rank"],hand[2]["imgcard"])
 				card_3_pressed = false
+				$ColorRect/Card_3.position.y += 50
 				pressed -= 1
 				print(pressed)
 			else:
 				card_3_pressed = true
+				$ColorRect/Card_3.position.y -= 50
 				pressed += 1
 				print(pressed)
 		4:
 			if card_4_pressed:
 				print(hand[3]["suit"],hand[3]["rank"],hand[3]["imgcard"])
 				card_4_pressed = false
+				$ColorRect/Card_4.position.y += 50
 				pressed -= 1
 				print(pressed)
 			else:
 				card_4_pressed = true
+				$ColorRect/Card_4.position.y -= 50
 				pressed += 1
 				print(pressed)
 		5:
 			if card_5_pressed:
 				print(hand[4]["suit"],hand[4]["rank"],hand[4]["imgcard"])
 				card_5_pressed = false
+				$ColorRect/Card_5.position.y += 50
 				pressed -= 1
 				print(pressed)
 			else:
 				card_5_pressed = true
+				$ColorRect/Card_5.position.y -= 50
 				pressed += 1
 				print(pressed)
 		6:
 			if card_6_pressed:
 				print(hand[5]["suit"],hand[5]["rank"],hand[5]["imgcard"])
 				card_6_pressed = false
+				$ColorRect/Card_6.position.y += 50
 				pressed -= 1
 				print(pressed)
 			else:
 				card_6_pressed = true
+				$ColorRect/Card_6.position.y -= 50
 				pressed += 1
 				print(pressed)
 		7:
 			if card_7_pressed:
 				print(hand[6]["suit"],hand[6]["rank"],hand[6]["imgcard"])
 				card_7_pressed = false
+				$ColorRect/Card_7.position.y += 50
 				pressed -= 1
 				print(pressed)
 			else:
 				card_7_pressed = true
+				$ColorRect/Card_7.position.y -= 50
 				pressed += 1
 				print(pressed)
 		8:
